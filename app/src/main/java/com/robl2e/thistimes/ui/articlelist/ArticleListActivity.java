@@ -2,6 +2,7 @@ package com.robl2e.thistimes.ui.articlelist;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import android.view.View;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.robl2e.thistimes.R;
+import com.robl2e.thistimes.data.model.article.Article;
 import com.robl2e.thistimes.data.remote.GenericResponse;
 import com.robl2e.thistimes.data.remote.article.ArticleSearchClientApi;
 import com.robl2e.thistimes.ui.common.ItemClickSupport;
@@ -18,6 +20,8 @@ import com.robl2e.thistimes.util.JsonUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -51,11 +55,26 @@ public class ArticleListActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         String rawString = response.body().string();
-                        System.out.println(rawString);
 
                         GenericResponse searchResponse = JsonUtils.fromJson(rawString
                                 , GenericResponse.class);
-                        System.out.println(searchResponse.getResponse().toString());
+
+                        List<Article> articleList = searchResponse.getResponse().getArticles();
+                        if (articleList == null) articleList = Collections.emptyList();
+
+                        List<ArticleItemViewModel> itemViewModels = new ArrayList<>();
+                        for (Article article : articleList) {
+                            itemViewModels.add(ArticleItemViewModel.convert(article));
+                        }
+                        listAdapter.setItems(itemViewModels);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateListAdapter();
+                            }
+                        });
+
                     }
                 });
                 return false;
@@ -110,7 +129,7 @@ public class ArticleListActivity extends AppCompatActivity {
 
     private void initializeList() {
         listAdapter = new ArticleListAdapter(this, new ArrayList<ArticleItemViewModel>());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
         articleListView.setLayoutManager(layoutManager);
         articleListView.setAdapter(listAdapter);
         ItemClickSupport itemClickSupport = ItemClickSupport.addTo(articleListView);

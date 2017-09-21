@@ -67,7 +67,7 @@ public class Article {
     private String slideshowCredits;
     @SerializedName("multimedia")
     @Expose
-    private List<Multimedium> multimedia = null;
+    private List<Multimedia> multimedia = null;
 
     /**
      * No args constructor for use in serialization
@@ -99,7 +99,7 @@ public class Article {
      * @param _abstract
      * @param subsectionName
      */
-    public Article(String webUrl, String snippet, String leadParagraph, String _abstract, String printPage, Blog blog, String source, Headline headline, List<Keyword> keywords, String pubDate, String documentType, String newsDesK, String sectionName, String subsectionName, Byline byline, String typeOfMaterial, String id, String wordCount, String slideshowCredits, List<Multimedium> multimedia) {
+    public Article(String webUrl, String snippet, String leadParagraph, String _abstract, String printPage, Blog blog, String source, Headline headline, List<Keyword> keywords, String pubDate, String documentType, String newsDesK, String sectionName, String subsectionName, Byline byline, String typeOfMaterial, String id, String wordCount, String slideshowCredits, List<Multimedia> multimedia) {
         super();
         this.webUrl = webUrl;
         this.snippet = snippet;
@@ -275,11 +275,11 @@ public class Article {
         this.slideshowCredits = slideshowCredits;
     }
 
-    public List<Multimedium> getMultimedia() {
+    public List<Multimedia> getMultimedia() {
         return multimedia;
     }
 
-    public void setMultimedia(List<Multimedium> multimedia) {
+    public void setMultimedia(List<Multimedia> multimedia) {
         this.multimedia = multimedia;
     }
 

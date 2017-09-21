@@ -27,9 +27,8 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_articles"
-        tools:visibility="visible"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:listitem="@layout/item_article"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"

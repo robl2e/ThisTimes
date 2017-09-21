@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class Multimedium {
+public class Multimedia {
 
     @SerializedName("url")
     @Expose
@@ -36,7 +36,7 @@ public class Multimedium {
      * No args constructor for use in serialization
      * 
      */
-    public Multimedium() {
+    public Multimedia() {
     }
 
     /**
@@ -50,7 +50,7 @@ public class Multimedium {
      * @param type
      * @param url
      */
-    public Multimedium(String url, String format, Integer height, Integer width, String type, String subtype, String caption, String copyright) {
+    public Multimedia(String url, String format, Integer height, Integer width, String type, String subtype, String caption, String copyright) {
         super();
         this.url = url;
         this.format = format;
