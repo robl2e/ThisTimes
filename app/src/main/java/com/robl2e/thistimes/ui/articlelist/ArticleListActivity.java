@@ -11,8 +11,10 @@ import android.view.View;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.robl2e.thistimes.R;
+import com.robl2e.thistimes.data.remote.GenericResponse;
 import com.robl2e.thistimes.data.remote.article.ArticleSearchClientApi;
 import com.robl2e.thistimes.ui.common.ItemClickSupport;
+import com.robl2e.thistimes.util.JsonUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,6 +52,10 @@ public class ArticleListActivity extends AppCompatActivity {
                     public void onResponse(Call call, Response response) throws IOException {
                         String rawString = response.body().string();
                         System.out.println(rawString);
+
+                        GenericResponse searchResponse = JsonUtils.fromJson(rawString
+                                , GenericResponse.class);
+                        System.out.println(searchResponse.getResponse().toString());
                     }
                 });
                 return false;
