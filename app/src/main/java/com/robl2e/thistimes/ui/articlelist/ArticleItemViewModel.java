@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import com.robl2e.thistimes.data.model.article.Article;
 import com.robl2e.thistimes.data.model.article.Multimedia;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by robl2e on 9/19/17.
  */
@@ -48,11 +51,18 @@ class ArticleItemViewModel {
 
     public static ArticleItemViewModel convert(Article article) {
         Multimedia multimedia = null;
-        // Get first entry
-        if (article.getMultimedia() != null && !article.getMultimedia().isEmpty()) {
-            multimedia = article.getMultimedia().get(0);
-        }
 
+
+        // Get first entry
+        List<Multimedia> multimediaList = article.getMultimedia();
+        if (article.getMultimedia() == null) {
+            multimediaList = Collections.emptyList();
+        }
+        for (Multimedia item : multimediaList) {
+            if ("thumbnail".equalsIgnoreCase(item.getSubtype())) {
+                multimedia = item;
+            }
+        }
         return new ArticleItemViewModel(
                 article.getHeadline().getMain(),
                 article.getWebUrl(),
