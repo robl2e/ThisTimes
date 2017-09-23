@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,10 +53,10 @@ public class ArticleListActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                ArticleSearchClientApi.getInstance().articleSearchRequest(query, new Callback() {
+                ArticleSearchClientApi.getInstance().articleSearchRequest(query, filterSettings, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-
+                        Log.e(TAG, Log.getStackTraceString(e));
                     }
 
                     @Override
@@ -134,6 +135,7 @@ public class ArticleListActivity extends AppCompatActivity {
                 @Override
                 public void onFinishSave(FilterSettings filterSettings) {
                     filterDialog = null;
+                    ArticleListActivity.this.filterSettings = filterSettings;
                 }
 
                 @Override

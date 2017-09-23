@@ -8,8 +8,8 @@ import android.text.TextUtils;
  */
 
 public enum Sort {
-    NEWEST("Newest"),
-    OLDEST("Oldest");
+    NEWEST("newest"),
+    OLDEST("oldest");
 
     private String value;
 
