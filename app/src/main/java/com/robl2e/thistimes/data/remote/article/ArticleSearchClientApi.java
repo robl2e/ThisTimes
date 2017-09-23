@@ -55,12 +55,7 @@ public class ArticleSearchClientApi {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(ARTICLE_SEARCH_ENDPOINT).newBuilder();
         urlBuilder.addQueryParameter(PARAM_QUERY, searchQuery);
 
-        if (filterSettings == null) {
-            DateTime dateTime = DateTime.today(TimeZone.getDefault());
-            urlBuilder = addBeginDate(dateTime, urlBuilder);
-
-            urlBuilder.addQueryParameter(PARAM_SORT, Sort.NEWEST.getValue());
-        } else {
+        if (filterSettings != null) {
             urlBuilder = addBeginDate(filterSettings.getBeginDate(), urlBuilder);
             urlBuilder = urlBuilder.addQueryParameter(PARAM_SORT, filterSettings.getSortOrder().getValue());
             urlBuilder = addFilterQuery(filterSettings, urlBuilder);

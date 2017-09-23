@@ -18,6 +18,7 @@ import com.robl2e.thistimes.data.remote.article.ArticleSearchClientApi;
 import com.robl2e.thistimes.ui.common.ItemClickSupport;
 import com.robl2e.thistimes.ui.filter.FilterSettings;
 import com.robl2e.thistimes.ui.filter.FilterSettingsBottomDialog;
+import com.robl2e.thistimes.ui.util.WebUtil;
 import com.robl2e.thistimes.util.JsonUtils;
 
 import java.io.IOException;
@@ -167,6 +168,8 @@ public class ArticleListActivity extends AppCompatActivity {
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                 ArticleItemViewModel viewModel = listAdapter.getItem(position);
                 if (viewModel == null) return;
+
+                WebUtil.launchWebUrl(v.getContext(), viewModel.getWebUrl());
             }
         });
     }
