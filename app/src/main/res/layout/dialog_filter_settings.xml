@@ -79,4 +79,53 @@
 
         </android.support.v7.widget.AppCompatSpinner>
     </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dialog_margin_left_border_padding"
+            android:layout_marginStart="@dimen/dialog_margin_left_border_padding"
+            android:fontFamily="sans-serif"
+            android:text="@string/news_desk_values" />
+
+
+        <LinearLayout
+            android:layout_marginLeft="48dp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="end|center_vertical"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/checkbox_arts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/arts" />
+
+            <CheckBox
+                android:id="@+id/checkbox_fashion_and_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fashion_and_style" />
+
+            <CheckBox
+                android:id="@+id/checkbox_sports"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sports" />
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

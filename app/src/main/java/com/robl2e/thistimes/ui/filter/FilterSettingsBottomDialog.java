@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 
 
@@ -17,6 +18,7 @@ import com.robl2e.thistimes.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
@@ -34,6 +36,10 @@ public class FilterSettingsBottomDialog extends BottomDialog {
     private Button datePickerButton;
     private Spinner sortPicker;
     private DateTime dateTime;
+
+    private CheckBox artsCheckBox;
+    private CheckBox fashionAndStyleCheckBox;
+    private CheckBox sportsCheckBox;
 
     public interface Listener {
         void onCancel();
@@ -61,8 +67,13 @@ public class FilterSettingsBottomDialog extends BottomDialog {
 
         datePickerButton = (Button) customView.findViewById(R.id.button_date_picker);
         sortPicker = (AppCompatSpinner) customView.findViewById(R.id.picker_sort);
+        artsCheckBox = (CheckBox) customView.findViewById(R.id.checkbox_arts);
+        fashionAndStyleCheckBox = (CheckBox) customView.findViewById(R.id.checkbox_fashion_and_style);
+        sportsCheckBox = (CheckBox) customView.findViewById(R.id.checkbox_sports);
+
         setDatePickerView();
         setSortPickerView();
+        setNewsDeskCheckBoxes();
 
         builder.onPositive(new ButtonCallback() {
             @Override
@@ -124,6 +135,26 @@ public class FilterSettingsBottomDialog extends BottomDialog {
         }
     }
 
+    private void setNewsDeskCheckBoxes() {
+        if (filterSettings != null && filterSettings.getNewsDesk() != null) {
+            List<String> newsDeskValues = filterSettings.getNewsDesk();
+            for (String name : newsDeskValues) {
+                NewsDesk newsDesk = NewsDesk.fromValue(name);
+                switch (newsDesk) {
+                    case ARTS:
+                        artsCheckBox.setChecked(true);
+                        break;
+                    case FASHION_AND_STYLE:
+                        fashionAndStyleCheckBox.setChecked(true);
+                        break;
+                    case SPORTS:
+                        sportsCheckBox.setChecked(true);
+                        break;
+                }
+            }
+        }
+    }
+
     private int getCompatibleMonth() {
         if (dateTime == null) return 1;
         return dateTime.getMonth() - 1;
@@ -146,11 +177,27 @@ public class FilterSettingsBottomDialog extends BottomDialog {
         return Sort.fromValue(sortStr).getValue();
     }
 
+    private List<String> getSelectedNewsDeskValues() {
+        List<String> newsDeskValues = new ArrayList<>();
+        if (artsCheckBox.isChecked()) {
+            newsDeskValues.add(NewsDesk.ARTS.getValue());
+        }
+
+        if (fashionAndStyleCheckBox.isChecked()) {
+            newsDeskValues.add(NewsDesk.FASHION_AND_STYLE.getValue());
+        }
+
+        if (sportsCheckBox.isChecked()) {
+            newsDeskValues.add(NewsDesk.SPORTS.getValue());
+        }
+        return newsDeskValues;
+    }
+
     private boolean save() {
         Sort sort = Sort.fromValue(getSortOrder());
         Long beginDate = getInputDateTime();
         FilterSettings filterSettings = new FilterSettings(beginDate
-                , sort, new ArrayList<String>());
+                , sort, getSelectedNewsDeskValues());
 
         notifyListener(filterSettings);
         return true;
