@@ -62,6 +62,7 @@ public class ArticleListActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         String rawString = response.body().string();
+                        Log.d(TAG, rawString);
 
                         GenericResponse searchResponse = JsonUtils.fromJson(rawString
                                 , GenericResponse.class);

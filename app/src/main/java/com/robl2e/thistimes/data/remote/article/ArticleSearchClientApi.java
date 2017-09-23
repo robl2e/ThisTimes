@@ -53,7 +53,6 @@ public class ArticleSearchClientApi {
 
     public void articleSearchRequest(String searchQuery, @Nullable FilterSettings filterSettings, final Callback responseHandler) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(ARTICLE_SEARCH_ENDPOINT).newBuilder();
-        urlBuilder.addQueryParameter(PARAM_API_KEY, BuildConfig.ARTICLE_SEARCH_API_KEY);
         urlBuilder.addQueryParameter(PARAM_QUERY, searchQuery);
 
         if (filterSettings == null) {
@@ -63,9 +62,11 @@ public class ArticleSearchClientApi {
             urlBuilder.addQueryParameter(PARAM_SORT, Sort.NEWEST.getValue());
         } else {
             urlBuilder = addBeginDate(filterSettings.getBeginDate(), urlBuilder);
-            urlBuilder.addQueryParameter(PARAM_SORT, filterSettings.getSortOrder().getValue());
+            urlBuilder = urlBuilder.addQueryParameter(PARAM_SORT, filterSettings.getSortOrder().getValue());
             urlBuilder = addFilterQuery(filterSettings, urlBuilder);
         }
+
+        urlBuilder.addQueryParameter(PARAM_API_KEY, BuildConfig.ARTICLE_SEARCH_API_KEY);
 
         String url = urlBuilder.build().toString();
         Log.d(TAG, "articleSearchRequest - " + url);

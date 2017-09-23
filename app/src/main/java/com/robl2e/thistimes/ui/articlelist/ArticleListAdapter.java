@@ -35,7 +35,7 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ArticleItemViewModel viewModel = getItem(position);
-        holder.bindView(viewModel);
+        holder.bindItem(viewModel);
     }
 
     @Override
@@ -63,7 +63,7 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
             summaryTextView = (TextView) itemView.findViewById(R.id.text_article_summary);
         }
 
-        private void bindView(ArticleItemViewModel viewModel) {
+        private void bindItem(ArticleItemViewModel viewModel) {
             headlineTextView.setText(viewModel.getHeadline());
             summaryTextView.setText(viewModel.getSummary());
 

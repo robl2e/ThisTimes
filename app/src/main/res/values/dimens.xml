@@ -5,4 +5,7 @@
 
     <dimen name="dialog_margin_left_border_padding">20dp</dimen>
     <dimen name="dialog_margin_right_border_padding">20dp</dimen>
+
+    <dimen name="body_text_margin_padding">20dp</dimen>
+
 </resources>
