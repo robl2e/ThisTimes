@@ -3,8 +3,8 @@ package com.robl2e.thistimes.ui.articlelist;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -143,7 +143,7 @@ public class ArticleListActivity extends AppCompatActivity {
 
     private void initializeList() {
         listAdapter = new ArticleListAdapter(this, new ArrayList<ArticleItemViewModel>());
-        GridLayoutManager layoutManager = new GridLayoutManager(this, NUM_COLUMNS);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, StaggeredGridLayoutManager.VERTICAL);
         articleListView.setLayoutManager(layoutManager);
         articleListView.setAdapter(listAdapter);
 

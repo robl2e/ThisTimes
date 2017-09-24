@@ -10,5 +10,6 @@
     <dimen name="card_corner_radius">12dp</dimen>
     <dimen name="image_corner_radius">2dp</dimen>
     <dimen name="card_margin_border">8dp</dimen>
+    <dimen name="article_view_max_height">350dp</dimen>
 
 </resources>
