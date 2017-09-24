@@ -13,6 +13,8 @@ import com.robl2e.thistimes.R;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 /**
  * Created by robl2e on 9/19/17.
  */
@@ -36,6 +38,12 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
     public void onBindViewHolder(ViewHolder holder, int position) {
         ArticleItemViewModel viewModel = getItem(position);
         holder.bindItem(viewModel);
+    }
+
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        super.onViewRecycled(holder);
+        Glide.clear(holder.getThumbnailImageView());
     }
 
     @Override
@@ -68,6 +76,10 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
             summaryTextView = (TextView) itemView.findViewById(R.id.text_article_summary);
         }
 
+        public ImageView getThumbnailImageView() {
+            return thumbnailImageView;
+        }
+
         private void bindItem(ArticleItemViewModel viewModel) {
             headlineTextView.setText(viewModel.getHeadline());
             summaryTextView.setText(viewModel.getSummary());
@@ -78,8 +90,11 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
         private void displayThumbnailImageView(ArticleItemViewModel viewModel) {
             if (viewModel.getImageUrl() == null) return;
 
+            int radius = itemView.getResources().getDimensionPixelSize(R.dimen.image_corner_radius);
+
             Glide.with(itemView.getContext())
                     .load(viewModel.getImageUrl())
+                    .bitmapTransform(new RoundedCornersTransformation(itemView.getContext(), radius, 0))
                     .into(thumbnailImageView);
         }
     }

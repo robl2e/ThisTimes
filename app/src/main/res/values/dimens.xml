@@ -7,5 +7,7 @@
     <dimen name="dialog_margin_right_border_padding">20dp</dimen>
 
     <dimen name="body_text_margin_padding">20dp</dimen>
+    <dimen name="card_corner_radius">12dp</dimen>
+    <dimen name="image_corner_radius">2dp</dimen>
 
 </resources>

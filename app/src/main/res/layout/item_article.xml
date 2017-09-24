@@ -1,38 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:clickable="true"
     android:layout_width="wrap_content"
-    android:layout_height="350dp">
+    android:layout_height="350dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="3dp"
+    android:foreground="?android:attr/selectableItemBackground">
 
-    <ImageView
-        android:id="@+id/image_article_thumbnail"
-        android:layout_centerHorizontal="true"
-        app:layout_widthPercent="50%"
-        app:layout_heightPercent="50%"
-        />
-
-    <TextView
-        android:id="@+id/text_article_headline"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:layout_below="@id/image_article_thumbnail"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:paddingLeft="@dimen/margin_left_border_padding"
-        android:paddingRight="@dimen/margin_right_border_padding"
-        tools:text="Share Your College’s Traditions"
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/image_article_thumbnail"
+            android:layout_centerHorizontal="true"
+            android:layout_height="75dp"
+            android:layout_width="75dp"
+            android:layout_margin="8dp"
+            app:layout_widthPercent="50%"
+            app:layout_heightPercent="50%" />
 
-    <TextView
-        android:id="@+id/text_article_summary"
-        android:padding="@dimen/body_text_margin_padding"
-        style="@style/TextAppearance.AppCompat.Body1"
-        android:layout_below="@id/text_article_headline"
-        tools:text="What would college be without its crazy customs? We invite you to share photos of yours."
-        android:ellipsize="end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</android.support.percent.PercentRelativeLayout>
+        <TextView
+            android:id="@+id/text_article_headline"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_below="@id/image_article_thumbnail"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:paddingLeft="@dimen/margin_left_border_padding"
+            android:paddingRight="@dimen/margin_right_border_padding"
+            tools:text="Share Your College’s Traditions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/text_article_summary"
+            android:padding="@dimen/body_text_margin_padding"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_below="@id/text_article_headline"
+            tools:text="What would college be without its crazy customs? We invite you to share photos of yours."
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

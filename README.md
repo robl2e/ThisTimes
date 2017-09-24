@@ -57,14 +57,14 @@ Describe any challenges encountered while building the app.
 ## Open-source libraries used
 
 - [Okhttp](http://square.github.io/okhttp/) - An HTTP+HTTP/2 client for Android and Java applications.
-- [Glide](http://bumptech.github.io/glide/) - An image loading and caching library for Android focused on smooth scrolling
-- [Gson](https://github.com/google/gson) - A Java serialization/deserialization library to convert Java Objects into JSON and back
-- [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/) - Lang provides a host of helper utilities for the java.lang API
-- [materialsearchview](https://github.com/MiguelCatalan/MaterialSearchView) - Cute library to implement SearchView in a Material Design Approach
-- [BottomDialog](https://github.com/javiersantos/BottomDialogs) - An Android library that shows a customizable Material-based bottom sheet
-- [Android-BetterPickers](https://github.com/code-troopers/android-betterpickers) - Android library for better Picker DialogFragments
+- [Glide](http://bumptech.github.io/glide/) - An image loading and caching library for Android focused on smooth scrolling.
+- [Gson](https://github.com/google/gson) - A Java serialization/deserialization library to convert Java Objects into JSON and back.
+- [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/) - Lang provides a host of helper utilities for the java.lang API.
+- [materialsearchview](https://github.com/MiguelCatalan/MaterialSearchView) - Cute library to implement SearchView in a Material Design Approach.
+- [BottomDialog](https://github.com/javiersantos/BottomDialogs) - An Android library that shows a customizable Material-based bottom sheet.
+- [Android-BetterPickers](https://github.com/code-troopers/android-betterpickers) - Android library for better Picker DialogFragments.
 - [Date4J](http://www.date4j.net/) - Lightweight alternative to Java's built-in date-time classes.
-
+- [glide-transformations](https://github.com/wasabeef/glide-transformations) - An Android transformation library providing a variety of image transformations for Glide.
 
 
 

@@ -54,6 +54,7 @@ public class FilterSettingsBottomDialog extends BottomDialog {
                 .setTitle(R.string.filter)
                 .setNegativeText(R.string.cancel)
                 .setPositiveText(R.string.save)
+                .setCancelable(false)
                 .setCustomView(customView);
 
         return new FilterSettingsBottomDialog(builder, filterSettings, customView, listener);
