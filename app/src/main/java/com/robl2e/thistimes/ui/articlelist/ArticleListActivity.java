@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,41 +68,7 @@ public class ArticleListActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 ArticleListActivity.this.currentQuery = query;
-
-                ArticleSearchClientApi.getInstance().articleSearchRequest(query, filterSettings, new ArticleSearchCallback() {
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        String rawString = response.body().string();
-                        Log.d(TAG, rawString);
-                        Log.d(TAG, "code = " + response.code() + " message = " + response.message());
-
-                        if (response.code() == ErrorCodes.API_TOO_MANY_REQUESTS) {
-                            showErrorToastMessage(getString(R.string.error_max_num_pages, MAX_NUM_PAGES));
-                            return;
-                        }
-
-                        GenericResponse searchResponse = JsonUtils.fromJson(rawString
-                                , GenericResponse.class);
-
-                        ArticleSearchResponse articleSearchResponse = searchResponse.getResponse();
-                        if (articleSearchResponse == null) {
-                            showErrorToastMessage(getString(R.string.generic_request_error));
-                            return;
-                        }
-
-                        List<ArticleItemViewModel> itemViewModels = buildViewModels(articleSearchResponse);
-                        listAdapter.setItems(itemViewModels);
-                        endlessScrollListener.resetState();
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateListAdapter();
-                            }
-                        });
-
-                    }
-                });
+                performSearchArticleRequest(query);
                 return false;
             }
 
@@ -154,6 +121,7 @@ public class ArticleListActivity extends AppCompatActivity {
                 public void onFinishSave(FilterSettings filterSettings) {
                     filterDialog = null;
                     ArticleListActivity.this.filterSettings = filterSettings;
+                    performSearchArticleRequest(currentQuery); // repeats query with new filters
                 }
 
                 @Override
@@ -206,6 +174,45 @@ public class ArticleListActivity extends AppCompatActivity {
                 if (viewModel == null) return;
 
                 WebUtil.launchWebUrl(v.getContext(), viewModel.getWebUrl());
+            }
+        });
+    }
+
+    private void performSearchArticleRequest(String query) {
+        if (TextUtils.isEmpty(query)) return;
+
+        ArticleSearchClientApi.getInstance().articleSearchRequest(query, filterSettings, new ArticleSearchCallback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String rawString = response.body().string();
+                Log.d(TAG, rawString);
+                Log.d(TAG, "code = " + response.code() + " message = " + response.message());
+
+                if (response.code() == ErrorCodes.API_TOO_MANY_REQUESTS) {
+                    showErrorToastMessage(getString(R.string.error_max_num_pages, MAX_NUM_PAGES));
+                    return;
+                }
+
+                GenericResponse searchResponse = JsonUtils.fromJson(rawString
+                        , GenericResponse.class);
+
+                ArticleSearchResponse articleSearchResponse = searchResponse.getResponse();
+                if (articleSearchResponse == null) {
+                    showErrorToastMessage(getString(R.string.generic_request_error));
+                    return;
+                }
+
+                List<ArticleItemViewModel> itemViewModels = buildViewModels(articleSearchResponse);
+                listAdapter.setItems(itemViewModels);
+                endlessScrollListener.resetState();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateListAdapter();
+                    }
+                });
+
             }
         });
     }
