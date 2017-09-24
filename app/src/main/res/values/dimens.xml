@@ -9,5 +9,6 @@
     <dimen name="body_text_margin_padding">20dp</dimen>
     <dimen name="card_corner_radius">12dp</dimen>
     <dimen name="image_corner_radius">2dp</dimen>
+    <dimen name="card_margin_border">8dp</dimen>
 
 </resources>

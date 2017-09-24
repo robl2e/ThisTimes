@@ -189,7 +189,7 @@ public class ArticleListActivity extends AppCompatActivity {
                 Log.d(TAG, "code = " + response.code() + " message = " + response.message());
 
                 if (response.code() == ErrorCodes.API_TOO_MANY_REQUESTS) {
-                    showErrorToastMessage(getString(R.string.error_max_num_pages, MAX_NUM_PAGES));
+                    showErrorToastMessage(getString(R.string.error_too_many_requests));
                     return;
                 }
 
@@ -217,7 +217,7 @@ public class ArticleListActivity extends AppCompatActivity {
         });
     }
 
-    private void performLoadMoreArticlesRequest(int page, final int totalItemsCount) {
+    private void performLoadMoreArticlesRequest(final int page, final int totalItemsCount) {
         ArticleSearchClientApi.getInstance().articleSearchRequest(currentQuery, filterSettings, page, new ArticleSearchCallback() {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -227,6 +227,15 @@ public class ArticleListActivity extends AppCompatActivity {
 
                 if (response.code() == ErrorCodes.API_TOO_MANY_REQUESTS) {
                     showErrorToastMessage(getResources().getString(R.string.error_too_many_requests));
+
+                    // Retry Again
+                    handler.removeCallbacksAndMessages(null);
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            performLoadMoreArticlesRequest(page, totalItemsCount);
+                        }
+                    }, REQUEST_TIME_DELAY);
                     return;
                 }
 

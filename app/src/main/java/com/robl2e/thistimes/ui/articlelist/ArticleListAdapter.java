@@ -2,6 +2,7 @@ package com.robl2e.thistimes.ui.articlelist;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = inflater.inflate(R.layout.item_article, parent, false);
+        View itemView = inflater.inflate(viewType, parent, false);
         return new ViewHolder(itemView);
     }
 
@@ -43,7 +44,23 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
     @Override
     public void onViewRecycled(ViewHolder holder) {
         super.onViewRecycled(holder);
-        Glide.clear(holder.getThumbnailImageView());
+        if (holder.getThumbnailImageView() != null) {
+            Glide.clear(holder.getThumbnailImageView());
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        // ViewType is the layoutIds themselves
+
+        ArticleItemViewModel viewModel = articleItems.get(position);
+        if (viewModel == null) return R.layout.item_article;
+
+        if (TextUtils.isEmpty(viewModel.getImageUrl())) {
+            return R.layout.item_article_text_only;
+        }
+
+        return R.layout.item_article;
     }
 
     @Override
@@ -76,7 +93,7 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
             summaryTextView = (TextView) itemView.findViewById(R.id.text_article_summary);
         }
 
-        public ImageView getThumbnailImageView() {
+        ImageView getThumbnailImageView() {
             return thumbnailImageView;
         }
 
@@ -88,6 +105,7 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
         }
 
         private void displayThumbnailImageView(ArticleItemViewModel viewModel) {
+            if (thumbnailImageView == null) return;
             if (viewModel.getImageUrl() == null) return;
 
             int radius = itemView.getResources().getDimensionPixelSize(R.dimen.image_corner_radius);

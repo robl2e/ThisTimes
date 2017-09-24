@@ -16,17 +16,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/image_article_thumbnail"
-            android:layout_centerHorizontal="true"
-            android:layout_height="75dp"
-            android:layout_width="75dp"
-            android:layout_margin="8dp" />
-
         <TextView
             android:id="@+id/text_article_headline"
-            style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"            android:layout_below="@id/image_article_thumbnail"
-            android:maxLines="2"
+            style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+            android:layout_marginTop="8dp"
+            android:maxLines="3"
             android:ellipsize="end"
             android:paddingLeft="@dimen/margin_left_border_padding"
             android:paddingRight="@dimen/margin_right_border_padding"
