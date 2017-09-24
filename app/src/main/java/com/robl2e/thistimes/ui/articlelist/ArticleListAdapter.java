@@ -13,7 +13,10 @@ import com.bumptech.glide.Glide;
 import com.robl2e.thistimes.R;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
+import hirondelle.date4j.DateTime;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
@@ -84,12 +87,14 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
     static class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView thumbnailImageView;
         private TextView headlineTextView;
+        private TextView publishDateTextView;
         private TextView summaryTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             thumbnailImageView = (ImageView) itemView.findViewById(R.id.image_article_thumbnail);
             headlineTextView = (TextView) itemView.findViewById(R.id.text_article_headline);
+            publishDateTextView = (TextView) itemView.findViewById(R.id.text_article_publish_date);
             summaryTextView = (TextView) itemView.findViewById(R.id.text_article_summary);
         }
 
@@ -99,9 +104,29 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
 
         private void bindItem(ArticleItemViewModel viewModel) {
             headlineTextView.setText(viewModel.getHeadline());
+            displayPublishDate(viewModel.getPublishedDateWithoutTime());
+
             summaryTextView.setText(viewModel.getSummary());
 
             displayThumbnailImageView(viewModel);
+        }
+
+        private void displayPublishDate(String publishDate) {
+            if (TextUtils.isEmpty(publishDate)) {
+                publishDateTextView.setVisibility(View.GONE);
+                return;
+            } else {
+                publishDateTextView.setVisibility(View.VISIBLE);
+            }
+
+            if (!DateTime.isParseable(publishDate)) {
+                publishDateTextView.setVisibility(View.GONE);
+                return;
+            }
+
+            DateTime dateTime = new DateTime(publishDate);
+            String formattedString = dateTime.format("MMM D, YYYY", Locale.getDefault());
+            publishDateTextView.setText(formattedString);
         }
 
         private void displayThumbnailImageView(ArticleItemViewModel viewModel) {

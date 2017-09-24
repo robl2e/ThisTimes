@@ -1,6 +1,7 @@
 package com.robl2e.thistimes.ui.articlelist;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.robl2e.thistimes.data.model.article.Article;
 import com.robl2e.thistimes.data.model.article.Multimedia;
@@ -20,11 +21,14 @@ class ArticleItemViewModel {
     private String summary;
     private Multimedia multimedia;
 
-    private ArticleItemViewModel(String headline, String webUrl, String summary, Multimedia multimedia) {
+    private String publishedDate;
+
+    private ArticleItemViewModel(String headline, String webUrl, String summary, Multimedia multimedia, String publishedDate) {
         this.headline = headline;
         this.webUrl = webUrl;
         this.summary = summary;
         this.multimedia = multimedia;
+        this.publishedDate = publishedDate;
     }
 
     public String getHeadline() {
@@ -43,10 +47,24 @@ class ArticleItemViewModel {
         return multimedia;
     }
 
+    public String getPublishedDate() {
+        return publishedDate;
+    }
+
     @Nullable
     public String getImageUrl() {
         if (multimedia == null) return null;
         return IMAGE_BASE_URL + multimedia.getUrl();
+    }
+
+    public String getPublishedDateWithoutTime() {
+        if (TextUtils.isEmpty(publishedDate)) return null;
+
+        int index = publishedDate.indexOf("T");
+        if (index == -1) return publishedDate;
+
+        String dateOnly = publishedDate.substring(0, index);
+        return dateOnly;
     }
 
     public static ArticleItemViewModel convert(Article article) {
@@ -67,7 +85,8 @@ class ArticleItemViewModel {
                 article.getHeadline().getMain(),
                 article.getWebUrl(),
                 article.getSnippet(),
-                multimedia
+                multimedia,
+                article.getPubDate()
                 );
     }
 }
