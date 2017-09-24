@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.robl2e.thistimes.BuildConfig;
 import com.robl2e.thistimes.ui.filter.FilterSettings;
-import com.robl2e.thistimes.ui.filter.Sort;
 import java.io.IOException;
 import java.util.List;
 import java.util.TimeZone;
@@ -32,6 +31,8 @@ public class ArticleSearchClientApi {
     private static final String PARAM_BEGIN_DATE = "begin_date";
     private static final String PARAM_SORT = "sort";
     private static final String PARAM_FILTER_QUERY = "fq";
+    private static final String PARAM_PAGE = "page";
+
 
     private static class Holder {
         static final ArticleSearchClientApi articleSearchClientApi = new ArticleSearchClientApi();
@@ -51,7 +52,7 @@ public class ArticleSearchClientApi {
         client = new OkHttpClient();
     }
 
-    public void articleSearchRequest(String searchQuery, @Nullable FilterSettings filterSettings, final Callback responseHandler) {
+    public void articleSearchRequest(String searchQuery, @Nullable FilterSettings filterSettings, Integer pageNumber, final Callback responseHandler) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(ARTICLE_SEARCH_ENDPOINT).newBuilder();
         urlBuilder.addQueryParameter(PARAM_QUERY, searchQuery);
 
@@ -59,6 +60,10 @@ public class ArticleSearchClientApi {
             urlBuilder = addBeginDate(filterSettings.getBeginDate(), urlBuilder);
             urlBuilder = urlBuilder.addQueryParameter(PARAM_SORT, filterSettings.getSortOrder().getValue());
             urlBuilder = addFilterQuery(filterSettings, urlBuilder);
+        }
+
+        if (pageNumber != null) {
+            urlBuilder = urlBuilder.addQueryParameter(PARAM_PAGE, String.valueOf(pageNumber));
         }
 
         urlBuilder.addQueryParameter(PARAM_API_KEY, BuildConfig.ARTICLE_SEARCH_API_KEY);
@@ -85,6 +90,10 @@ public class ArticleSearchClientApi {
                 responseHandler.onResponse(call, response);
             }
         });
+    }
+
+    public void articleSearchRequest(String searchQuery, @Nullable FilterSettings filterSettings, final Callback responseHandler) {
+        articleSearchRequest(searchQuery, filterSettings, null, responseHandler);
     }
 
     private static HttpUrl.Builder addBeginDate(DateTime beginDate, HttpUrl.Builder urlBuilder) {

@@ -51,6 +51,11 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
         this.articleItems = items;
     }
 
+    public void addItems(List<ArticleItemViewModel> items) {
+        if (this.articleItems == null) return;
+        this.articleItems.addAll(items);
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView thumbnailImageView;
         private TextView headlineTextView;
