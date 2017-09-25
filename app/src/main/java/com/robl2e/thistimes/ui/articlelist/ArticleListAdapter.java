@@ -1,12 +1,15 @@
 package com.robl2e.thistimes.ui.articlelist;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,7 +17,6 @@ import com.robl2e.thistimes.R;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -88,6 +90,7 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
         private ImageView thumbnailImageView;
         private TextView headlineTextView;
         private TextView publishDateTextView;
+        private TextView newsDeskTextView;
         private TextView summaryTextView;
 
         public ViewHolder(View itemView) {
@@ -95,6 +98,7 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
             thumbnailImageView = (ImageView) itemView.findViewById(R.id.image_article_thumbnail);
             headlineTextView = (TextView) itemView.findViewById(R.id.text_article_headline);
             publishDateTextView = (TextView) itemView.findViewById(R.id.text_article_publish_date);
+            newsDeskTextView = (TextView) itemView.findViewById(R.id.text_news_desk_type);
             summaryTextView = (TextView) itemView.findViewById(R.id.text_article_summary);
         }
 
@@ -105,10 +109,29 @@ class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHol
         private void bindItem(ArticleItemViewModel viewModel) {
             headlineTextView.setText(viewModel.getHeadline());
             displayPublishDate(viewModel.getPublishedDateWithoutTime());
-
+            displayNewsDeskType(viewModel);
             summaryTextView.setText(viewModel.getSummary());
 
             displayThumbnailImageView(viewModel);
+        }
+
+        private void displayNewsDeskType(ArticleItemViewModel viewModel) {
+            newsDeskTextView.setVisibility(View.GONE);
+
+            if (TextUtils.isEmpty(viewModel.getNewsDesk())) return;
+
+            String newsDeskStr = viewModel.getNewsDesk();
+            int badgeColorRes = viewModel.resolveColorResForNewsDeskType(newsDeskStr);
+            if (badgeColorRes <= 0) return;
+
+            newsDeskTextView.setVisibility(View.VISIBLE);
+            newsDeskTextView.setText(newsDeskStr);
+
+            if (newsDeskTextView.getBackground() != null) {
+                Drawable drawable = newsDeskTextView.getBackground();
+                int color = newsDeskTextView.getResources().getColor(badgeColorRes);
+                DrawableCompat.setTint(drawable.mutate(), color);
+            }
         }
 
         private void displayPublishDate(String publishDate) {

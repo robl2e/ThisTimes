@@ -41,7 +41,7 @@ public class Article {
     @SerializedName("document_type")
     @Expose
     private String documentType;
-    @SerializedName("news_desK")
+    @SerializedName("new_desk")
     @Expose
     private String newsDesK;
     @SerializedName("section_name")

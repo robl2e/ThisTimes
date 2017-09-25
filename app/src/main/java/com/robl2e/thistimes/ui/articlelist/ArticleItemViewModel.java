@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.robl2e.thistimes.data.model.article.Article;
 import com.robl2e.thistimes.data.model.article.Multimedia;
+import com.robl2e.thistimes.ui.filter.NewsDesk;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,20 +16,21 @@ import java.util.List;
 
 class ArticleItemViewModel {
     private static final String IMAGE_BASE_URL = "http://www.nytimes.com/";
-
     private String headline;
     private String webUrl;
     private String summary;
     private Multimedia multimedia;
-
     private String publishedDate;
 
-    private ArticleItemViewModel(String headline, String webUrl, String summary, Multimedia multimedia, String publishedDate) {
+    private String newsDesk;
+
+    private ArticleItemViewModel(String headline, String webUrl, String summary, Multimedia multimedia, String publishedDate, String newsDesk) {
         this.headline = headline;
         this.webUrl = webUrl;
         this.summary = summary;
         this.multimedia = multimedia;
         this.publishedDate = publishedDate;
+        this.newsDesk = newsDesk;
     }
 
     public String getHeadline() {
@@ -51,6 +53,10 @@ class ArticleItemViewModel {
         return publishedDate;
     }
 
+    public String getNewsDesk() {
+        return newsDesk;
+    }
+
     @Nullable
     public String getImageUrl() {
         if (multimedia == null) return null;
@@ -65,6 +71,19 @@ class ArticleItemViewModel {
 
         String dateOnly = publishedDate.substring(0, index);
         return dateOnly;
+    }
+
+    public int resolveColorResForNewsDeskType(String newsDesk) {
+        if (TextUtils.isEmpty(newsDesk)) return 0;
+
+        if (NewsDesk.ARTS.getValue().equalsIgnoreCase(newsDesk)) {
+            return android.R.color.holo_red_light;
+        } else if (NewsDesk.SPORTS.getValue().equalsIgnoreCase(newsDesk)) {
+            return android.R.color.holo_blue_light;
+        } else if (NewsDesk.FASHION_AND_STYLE.getValue().equalsIgnoreCase(newsDesk)) {
+            return android.R.color.holo_purple;
+        }
+        return 0;
     }
 
     public static ArticleItemViewModel convert(Article article) {
@@ -86,7 +105,8 @@ class ArticleItemViewModel {
                 article.getWebUrl(),
                 article.getSnippet(),
                 multimedia,
-                article.getPubDate()
+                article.getPubDate(),
+                article.getNewsDesK()
                 );
     }
 }

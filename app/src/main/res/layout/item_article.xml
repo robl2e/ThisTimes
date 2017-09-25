@@ -21,9 +21,11 @@
         <ImageView
             android:id="@+id/image_article_thumbnail"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/margin_left_border_padding"
+            android:layout_marginTop="@dimen/margin_top_border_padding"
+            android:layout_marginBottom="@dimen/margin_bottom_border_padding"
             android:layout_height="75dp"
-            android:layout_width="75dp"
-            android:layout_margin="8dp" />
+            android:layout_width="75dp" />
 
         <TextView
             android:id="@+id/text_article_headline"
@@ -37,29 +39,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <LinearLayout
-            android:id="@+id/layout_article_meta_details"
+        <TextView
+            android:id="@+id/text_article_publish_date"
+            android:layout_marginTop="8dp"
             android:layout_below="@id/text_article_headline"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_marginLeft="@dimen/margin_left_border_padding"
+            tools:text="Jun 12, 2017"
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/text_article_publish_date"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="@dimen/margin_left_border_padding"
-                tools:text="Jun 12, 2017"
-                android:ellipsize="end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/text_news_desk_type"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:fontFamily="sans-serif"
+            tools:text="Fashion And Style"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:padding="3dp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/margin_left_border_padding"
+            android:layout_marginRight="@dimen/margin_right_border_padding"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:background="@drawable/selector_news_desk_type"
+            android:textColor="@android:color/white"
+            android:textAllCaps="true"
+            android:layout_below="@id/text_article_publish_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/text_article_summary"
-            android:padding="@dimen/body_text_margin_padding"
+            android:layout_margin="@dimen/body_text_margin_padding"
             style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_below="@id/layout_article_meta_details"
+            android:layout_below="@id/text_news_desk_type"
             tools:text="What would college be without its crazy customs? We invite you to share photos of yours."
             android:ellipsize="end"
             android:layout_width="wrap_content"
