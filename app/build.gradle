@@ -8,7 +8,7 @@ if (propsFile.exists()) {
 } else if (System.env.ARTICLE_SEARCH_API_KEY != null) {
     props.setProperty("ARTICLE_SEARCH_API_KEY", System.env.ARTICLE_SEARCH_API_KEY)
 } else {
-    throw new GradleException("Missing keystore.properties, check the keystore.properties")
+    System.println("Missing keystore.properties, check the keystore.properties")
 }
 
 android {

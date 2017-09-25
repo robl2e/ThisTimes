@@ -1,6 +1,7 @@
 package com.robl2e.thistimes.data.remote.article;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.robl2e.thistimes.BuildConfig;
@@ -33,6 +34,8 @@ public class ArticleSearchClientApi {
     private static final String PARAM_FILTER_QUERY = "fq";
     private static final String PARAM_PAGE = "page";
 
+    // Should use keystore.properties file instead
+    private static final String EMBEDDED_API_KEY = "b2b5ae4017534330946419810f7b4796";
 
     private static class Holder {
         static final ArticleSearchClientApi articleSearchClientApi = new ArticleSearchClientApi();
@@ -66,7 +69,11 @@ public class ArticleSearchClientApi {
             urlBuilder = urlBuilder.addQueryParameter(PARAM_PAGE, String.valueOf(pageNumber));
         }
 
-        urlBuilder.addQueryParameter(PARAM_API_KEY, BuildConfig.ARTICLE_SEARCH_API_KEY);
+        String apiKey = BuildConfig.ARTICLE_SEARCH_API_KEY;
+        if (TextUtils.isEmpty(apiKey) || "null".equals(apiKey)) {
+            apiKey = EMBEDDED_API_KEY;
+        }
+        urlBuilder.addQueryParameter(PARAM_API_KEY, apiKey);
 
         String url = urlBuilder.build().toString();
         Log.d(TAG, "articleSearchRequest - " + url);
