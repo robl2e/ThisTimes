@@ -54,6 +54,10 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 Describe any challenges encountered while building the app.
 
+Implementing the Endless Scrolling feature was a challenge since there was many factors to keep track of.
+The correct search API parameters needed to be passed in, correct ordering when to update the RecyclerView's items, and handling the API rate limiting.
+A small error in any of those factors would cause the feature to not work as intended.
+
 ## Open-source libraries used
 
 - [Okhttp](http://square.github.io/okhttp/) - An HTTP+HTTP/2 client for Android and Java applications.
