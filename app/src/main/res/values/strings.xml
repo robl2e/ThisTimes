@@ -15,4 +15,6 @@
     <string name="generic_request_error">Unable to perform request. Please try again later.</string>
     <string name="error_too_many_requests">Too many requests. Please try again later.</string>
     <string name="error_max_num_pages">Sorry you have reached the maximum num of pages: %d</string>
+    <string name="retry">Retry</string>
+    <string name="error_no_network_connection">No Network Connection Detected</string>
 </resources>

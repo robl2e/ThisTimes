@@ -1,6 +1,7 @@
 package com.robl2e.thistimes.ui.articlelist;
 
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.robl2e.thistimes.ui.filter.FilterSettings;
 import com.robl2e.thistimes.ui.filter.FilterSettingsBottomDialog;
 import com.robl2e.thistimes.ui.util.WebUtil;
 import com.robl2e.thistimes.util.JsonUtils;
+import com.robl2e.thistimes.util.NetworkUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,6 +70,12 @@ public class ArticleListActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 ArticleListActivity.this.currentQuery = query;
+
+                if (!NetworkUtils.isNetworkAvailable(ArticleListActivity.this)) {
+                    String message = getString(R.string.error_no_network_connection);
+                    showSnackBarMessage(message, query);
+                    return false;
+                }
                 performSearchArticleRequest(query);
                 return false;
             }
@@ -158,6 +166,10 @@ public class ArticleListActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        if (!NetworkUtils.isNetworkAvailable(ArticleListActivity.this)) {
+                            showErrorToastMessage(getString(R.string.error_no_network_connection));
+                            return;
+                        }
                         performLoadMoreArticlesRequest(page, totalItemsCount);
                     }
                 }, REQUEST_TIME_DELAY);
@@ -178,7 +190,7 @@ public class ArticleListActivity extends AppCompatActivity {
         });
     }
 
-    private void performSearchArticleRequest(String query) {
+    private void performSearchArticleRequest(final String query) {
         if (TextUtils.isEmpty(query)) return;
 
         ArticleSearchClientApi.getInstance().articleSearchRequest(query, filterSettings, new ArticleSearchCallback() {
@@ -189,7 +201,12 @@ public class ArticleListActivity extends AppCompatActivity {
                 Log.d(TAG, "code = " + response.code() + " message = " + response.message());
 
                 if (response.code() == ErrorCodes.API_TOO_MANY_REQUESTS) {
-                    showErrorToastMessage(getString(R.string.error_too_many_requests));
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showSnackBarMessage(getString(R.string.error_too_many_requests), query);
+                        }
+                    });
                     return;
                 }
 
@@ -198,7 +215,12 @@ public class ArticleListActivity extends AppCompatActivity {
 
                 ArticleSearchResponse articleSearchResponse = searchResponse.getResponse();
                 if (articleSearchResponse == null) {
-                    showErrorToastMessage(getString(R.string.generic_request_error));
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showSnackBarMessage(getString(R.string.generic_request_error), query);
+                        }
+                    });
                     return;
                 }
 
@@ -293,6 +315,23 @@ public class ArticleListActivity extends AppCompatActivity {
         });
     }
 
+    private void showSnackBarMessage(final String message, final String query) {
+        // Pass in the click listener when displaying the Snackbar
+        Snackbar.make(articleListView, message, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!NetworkUtils.isNetworkAvailable(ArticleListActivity.this)) {
+                            showSnackBarMessage(message, query);
+                            return;
+                        }
+                        if (TextUtils.isEmpty(query)) return;
+
+                        performSearchArticleRequest(query);
+                    }
+                })
+                .show(); // Don’t forget to show!
+    }
 
     private void updateListAdapter() {
         listAdapter.notifyDataSetChanged();
