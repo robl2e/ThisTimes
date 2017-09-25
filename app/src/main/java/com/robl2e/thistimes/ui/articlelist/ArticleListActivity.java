@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -50,6 +51,8 @@ public class ArticleListActivity extends AppCompatActivity {
     private ArticleListAdapter listAdapter;
     private MaterialSearchView searchView;
     private FilterSettings filterSettings;
+    private View emptyView;
+    private TextView textEmptyView;
     private FilterSettingsBottomDialog filterDialog;
     private EndlessRecyclerViewScrollListener endlessScrollListener;
     private Handler handler;
@@ -145,6 +148,8 @@ public class ArticleListActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        emptyView = findViewById(R.id.layout_empty_view);
+        textEmptyView = (TextView) findViewById(R.id.text_empty_view);
         searchView = (MaterialSearchView) findViewById(R.id.search_articles);
         articleListView = (RecyclerView) findViewById(R.id.list_articles);
     }
@@ -231,6 +236,9 @@ public class ArticleListActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        boolean hasResults = listAdapter.getItemCount() > 0;
+                        displayCurrentViewState(hasResults);
+                        textEmptyView.setText(R.string.no_search_result);
                         updateListAdapter();
                     }
                 });
@@ -303,6 +311,16 @@ public class ArticleListActivity extends AppCompatActivity {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
 
+        }
+    }
+
+    private void displayCurrentViewState(boolean hasResults) {
+        if (hasResults) {
+            emptyView.setVisibility(View.INVISIBLE);
+            articleListView.setVisibility(View.VISIBLE);
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
+            articleListView.setVisibility(View.INVISIBLE);
         }
     }
 

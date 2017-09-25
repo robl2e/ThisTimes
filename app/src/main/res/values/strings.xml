@@ -17,4 +17,6 @@
     <string name="error_max_num_pages">Sorry you have reached the maximum num of pages: %d</string>
     <string name="retry">Retry</string>
     <string name="error_no_network_connection">No Network Connection Detected</string>
+    <string name="please_perform_a_search">Please perform a search.</string>
+    <string name="no_search_result">Looks like that search has no results.</string>
 </resources>
