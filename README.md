@@ -2,7 +2,7 @@
 
 **ThisTimes** is an android app that allows a user to search for articles on web using simple filters. The app utilizes [New York Times Search API](http://developer.nytimes.com/docs/read/article_search_api_v2).
 
-Time spent: **18** hours spent in total
+Time spent: **26** hours spent in total
 
 ## User Stories
 
@@ -46,9 +46,9 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+[Dropbox Link](https://www.dropbox.com/s/i2t0nc7inze9f9u/ThisTimes_2017_09_24_20_41_56.mp4?dl=0).
 
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
+Video created with [AZ Screen Recorder](https://play.google.com/store/apps/details?id=com.hecorat.screenrecorder.free&hl=en).
 
 ## Notes
 
